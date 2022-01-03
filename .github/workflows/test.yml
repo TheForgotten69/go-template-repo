@@ -1,12 +1,12 @@
-on: [push, pull_request]
+on: [ pull_request ]
 name: tests
 
 jobs:
   test:
     strategy:
       matrix:
-        go-version: [1.x]
-        platform: [ubuntu-latest]
+        go-version: [ 1.x ]
+        platform: [ ubuntu-latest ]
     runs-on: ${{ matrix.platform }}
 
     steps:
@@ -14,7 +14,9 @@ jobs:
         with:
           go-version: ${{ matrix.go-version }}
       - uses: actions/checkout@v2
-
+      # Make that the go private module of the given user will be downloadable
+      - run: |
+          git config --global url."https://${{ secrets.GO_MODULES_TOKEN }}:x-oauth-basic@github.com/TheForgotten69".insteadOf "https://github.com/TheForgotten69"
       - name: Cache go modules
         uses: actions/cache@v2.1.7
         with:
@@ -27,7 +29,7 @@ jobs:
 
       - name: Ensure go generate produces a zero diff
         shell: bash
-        run:  go generate -x ./... && git diff --exit-code; code=$?; git checkout -- .; (exit $code)
+        run: go generate -x ./... && git diff --exit-code; code=$?; git checkout -- .; (exit $code)
 
       - name: Run go vet
         run: go vet ./...
