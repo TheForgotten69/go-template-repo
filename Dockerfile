@@ -2,7 +2,7 @@
 # This is based on Debian and sets the GOPATH to /go.
 # https://hub.docker.com/_/golang
 
-FROM golang:1.17-buster as builder
+FROM golang:1.18.0-buster as builder
 
 ARG GITHUB_USER_TOKEN
 
