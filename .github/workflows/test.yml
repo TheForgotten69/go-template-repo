@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-go@v2
         with:
           go-version: ${{ matrix.go-version }}
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.1.0
       # Make that the go private module of the given user will be downloadable
       - run: |
           git config --global url."https://${{ secrets.GO_MODULES_TOKEN }}:x-oauth-basic@github.com/TheForgotten69".insteadOf "https://github.com/TheForgotten69"
